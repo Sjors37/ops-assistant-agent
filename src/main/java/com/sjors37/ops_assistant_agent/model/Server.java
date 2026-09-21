@@ -1,4 +1,8 @@
 package com.sjors37.ops_assistant_agent.model;
 
-public class Server {
-}
+public record Server(
+        String id,
+        String name,
+        ServerStatus status,
+        String environment
+) {}

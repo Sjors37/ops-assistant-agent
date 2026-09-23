@@ -2,6 +2,7 @@ package com.sjors37.ops_assistant_agent.config;
 
 import com.sjors37.ops_assistant_agent.tools.LogSearchTool;
 import com.sjors37.ops_assistant_agent.tools.ServerStatusTool;
+import com.sjors37.ops_assistant_agent.tools.TicketTool;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.anthropic.AnthropicChatModel;
 import org.springframework.context.annotation.Bean;
@@ -26,10 +27,10 @@ public class ChatClientConfig {
             """;
 
     @Bean
-    public ChatClient chatClient(AnthropicChatModel chatModel, ServerStatusTool serverStatusTool, LogSearchTool logSearchTool) {
+    public ChatClient chatClient(AnthropicChatModel chatModel, ServerStatusTool serverStatusTool, LogSearchTool logSearchTool, TicketTool ticketTool) {
         return ChatClient.builder(chatModel)
                 .defaultSystem(SYSTEM_PROMPT)
-                .defaultTools(serverStatusTool, logSearchTool)
+                .defaultTools(serverStatusTool, logSearchTool, ticketTool)
                 .build();
     }
 }

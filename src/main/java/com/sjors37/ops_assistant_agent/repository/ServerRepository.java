@@ -1,7 +1,7 @@
 package com.sjors37.ops_assistant_agent.repository;
 
 import com.sjors37.ops_assistant_agent.model.Server;
-import com.sjors37.ops_assistant_agent.model.ServerStatus;
+import com.sjors37.ops_assistant_agent.model.enums.ServerStatus;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

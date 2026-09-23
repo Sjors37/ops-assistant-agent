@@ -1,0 +1,7 @@
+services:
+  ops-assistant-agent:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}

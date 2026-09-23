@@ -1,7 +1,7 @@
 package com.sjors37.ops_assistant_agent.tools;
 
 import com.sjors37.ops_assistant_agent.model.Server;
-import com.sjors37.ops_assistant_agent.model.ServerStatus;
+import com.sjors37.ops_assistant_agent.model.enums.ServerStatus;
 import com.sjors37.ops_assistant_agent.repository.ServerRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

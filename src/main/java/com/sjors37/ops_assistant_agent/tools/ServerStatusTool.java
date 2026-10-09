@@ -2,6 +2,7 @@ package com.sjors37.ops_assistant_agent.tools;
 
 import com.sjors37.ops_assistant_agent.model.Server;
 import com.sjors37.ops_assistant_agent.repository.ServerRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Component;
@@ -9,13 +10,10 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class ServerStatusTool {
 
     private final ServerRepository serverRepository;
-
-    public ServerStatusTool(ServerRepository serverRepository) {
-        this.serverRepository = serverRepository;
-    }
 
     @Tool(description = "Check the current health status of a server by its name. " +
             "Returns whether the server is UP, DOWN, or DEGRADED, and which environment it runs in.")

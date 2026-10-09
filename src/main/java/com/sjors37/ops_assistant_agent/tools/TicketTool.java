@@ -2,18 +2,16 @@ package com.sjors37.ops_assistant_agent.tools;
 
 import com.sjors37.ops_assistant_agent.model.Ticket;
 import com.sjors37.ops_assistant_agent.repository.TicketRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class TicketTool {
 
     private final TicketRepository ticketRepository;
-
-    public TicketTool(TicketRepository ticketRepository) {
-        this.ticketRepository = ticketRepository;
-    }
 
     @Tool(description = "Create a support ticket for a server issue. " +
             "Only use this after the user has explicitly confirmed they want a ticket created — " +

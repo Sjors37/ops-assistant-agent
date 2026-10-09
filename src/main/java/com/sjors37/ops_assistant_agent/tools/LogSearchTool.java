@@ -3,6 +3,7 @@ package com.sjors37.ops_assistant_agent.tools;
 import com.sjors37.ops_assistant_agent.model.LogEntry;
 import com.sjors37.ops_assistant_agent.model.enums.LogSeverity;
 import com.sjors37.ops_assistant_agent.repository.LogRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Component;
@@ -13,13 +14,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class LogSearchTool {
 
     private final LogRepository logRepository;
-
-    public LogSearchTool(LogRepository logRepository) {
-        this.logRepository = logRepository;
-    }
 
     @Tool(description = "Search recent logs for a specific server, optionally filtered by severity level. " +
             "Use this to investigate why a server might be DOWN or DEGRADED. " +

@@ -8,6 +8,9 @@ import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class LogSearchTool {
@@ -25,34 +28,33 @@ public class LogSearchTool {
             @ToolParam(description = "The name of the server to search logs for, e.g. 'web-02'") String serverName,
             @ToolParam(description = "Optional severity filter: INFO, WARN, or ERROR. Omit to get all severities.", required = false) String severity
     ) {
-        List<LogEntry> results;
+        boolean hasSeverityFilter = severity != null && !severity.isBlank();
 
-        if (severity == null || severity.isBlank()) {
-            results = logRepository.findByServerName(serverName);
-        } else {
-            LogSeverity parsedSeverity = parseSeverity(severity);
-            if (parsedSeverity == null) {
-                return "Invalid severity '" + severity + "'. Valid values are: INFO, WARN, ERROR.";
-            }
-            results = logRepository.findByServerNameAndSeverity(serverName, parsedSeverity);
+        if (!hasSeverityFilter) {
+            return formatResults(logRepository.findByServerName(serverName), serverName, null);
         }
 
+        return parseSeverity(severity)
+                .map(parsed -> formatResults(logRepository.findByServerNameAndSeverity(serverName, parsed), serverName, severity))
+                .orElse("Invalid severity '" + severity + "'. Valid values are: INFO, WARN, ERROR.");
+    }
+
+    private String formatResults(List<LogEntry> results, String serverName, String severityFilter) {
         if (results.isEmpty()) {
             return "No logs found for server '" + serverName + "'"
-                    + (severity != null && !severity.isBlank() ? " with severity " + severity : "") + ".";
+                    + (severityFilter != null ? " with severity " + severityFilter : "") + ".";
         }
 
         return results.stream()
                 .map(log -> "[%s] %s: %s".formatted(log.timestamp(), log.severity(), log.message()))
-                .reduce((a, b) -> a + "\n" + b)
-                .orElse("");
+                .collect(Collectors.joining("\n"));
     }
 
-    private LogSeverity parseSeverity(String severity) {
+    private Optional<LogSeverity> parseSeverity(String severity) {
         try {
-            return LogSeverity.valueOf(severity.toUpperCase());
+            return Optional.of(LogSeverity.valueOf(severity.toUpperCase(Locale.ROOT)));
         } catch (IllegalArgumentException e) {
-            return null;
+            return Optional.empty();
         }
     }
 }

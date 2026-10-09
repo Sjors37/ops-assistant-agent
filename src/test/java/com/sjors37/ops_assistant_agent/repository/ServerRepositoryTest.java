@@ -23,16 +23,18 @@ class ServerRepositoryTest {
     void findByName_returnsServer_whenExists() {
         Optional<Server> result = serverRepository.findByName("web-01");
 
-        assertThat(result).isPresent();
-        assertThat(result.get().status()).isEqualTo(ServerStatus.UP);
+        assertThat(result).get()
+                .extracting(Server::status)
+                .isEqualTo(ServerStatus.UP);
     }
 
     @Test
     void findByName_isCaseInsensitive() {
         Optional<Server> result = serverRepository.findByName("WEB-01");
 
-        assertThat(result).isPresent();
-        assertThat(result.get().name()).isEqualTo("web-01");
+        assertThat(result).get()
+                .extracting(Server::name)
+                .isEqualTo("web-01");
     }
 
     @Test

@@ -44,8 +44,9 @@ class LogRepositoryTest {
     void findByServerNameAndSeverity_filtersCorrectly() {
         List<LogEntry> result = logRepository.findByServerNameAndSeverity("web-02", LogSeverity.ERROR);
 
-        assertThat(result).hasSize(1);
-        assertThat(result.get(0).message()).isEqualTo("Connection pool exhausted");
+        assertThat(result).singleElement()
+                .extracting(LogEntry::message)
+                .isEqualTo("Connection pool exhausted");
     }
 
     @Test

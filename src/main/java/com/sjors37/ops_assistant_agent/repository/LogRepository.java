@@ -29,7 +29,7 @@ public class LogRepository {
     public List<LogEntry> findByServerNameAndSeverity(String serverName, LogSeverity severity) {
         return logs.stream()
                 .filter(log -> log.serverName().equalsIgnoreCase(serverName))
-                .filter(log -> log.severity() == severity)
+                .filter(log -> log.severity().equals(severity))
                 .toList();
     }
 }
